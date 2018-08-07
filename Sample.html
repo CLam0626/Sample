@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Book Store</title>
+        <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+        </script>
+        <script>
+            function runjQuery2() {
+                //reading the title selected from the list
+                var selectedTitle = document.getElementById("matchList").value;
+                
+                $.ajax({
+                    url: "showbook.jsp",
+                    dataType: "text",
+                    data: "titleKey=" + selectedTitle,
+                    success: function(serverdata) {
+                        document.getElementById("table").innerHTML = serverdata;
+                    }
+                })
+            }
+        </script>
+    </head>
+    <body>
+        <h1>City Tech Book Store</h1>
+        Search: <input type="text" name="searchTxtBx" id="searchTxtBx" onkeyup="runjQuery()" autofocus>
+        <br/>
+        <div id="displayHere"></div>
+        <div id="table"></div>
+        <script>
+            function runjQuery() {
+                //reading the char from the textbox
+                var inputString = document.getElementById("searchTxtBx").value;
+                
+                //communicating with jsp
+                if(inputString != ""){
+                $.ajax({
+                        url: "listmatch.jsp",
+                        dataType: "text",
+                        data: "stringKey=" + inputString,
+                        success: function(serverdata){
+                            if(serverdata.trim == "No Records Found ") {
+                                alert("No record(s) found");
+                            } else {
+                            document.getElementById("displayHere").innerHTML = serverdata;
+                        }
+                        }                        
+                    })
+            } else {
+                document.getElementById("displayHere").innerHTML = "";
+            }
+        }
+        </script>
+    </body>
+</html>
+
